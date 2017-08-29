@@ -1,0 +1,103 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue Admin Small</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" />
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <h3 class="black-text center">Top Stories</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <form @submit.prevent="add">
+                            <div class="input-field">
+                                <input type="text" class="validate" name="title" v-model="newItem.title">
+                                <label for="title">Title</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" class="validate" name="date" v-model="newItem.date">
+                                <label for="date">Date</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" class="validate" name="image" v-model="newItem.image">
+                                <label for="image">Image</label>
+                            </div>
+
+                            <div class="input-field">
+                                <textarea name="synopsis" class="materialize-textarea" v-model="newItem.synopsis"></textarea>
+                                <label for="synopsis">Synopsis</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" class="validate" name="link" v-model="newItem.link">
+                                <label for="link">Link</label>
+                            </div>
+
+                            <div class="input-field">
+                                <input type="text" class="validate" name="author" v-model="newItem.author" :value="author">
+                                <label for="author">Author</label>
+                            </div>
+                            <div class="input-field">
+                                <button type="submit" class="btn green white-text waves-effect waves-light">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <div class="card-panel no-padding" style="height: auto;">
+                            <ul class="collection stories" style="border: none;">
+                                <li class="collection-item avatar" v-for="item in items"> <img v-bind:alt="item.title" v-bind:src="item.image" class="circle materialboxed" /> <span class="title truncate">{{ item.title }}
+                                        </span>
+                                    <p class="block-with-text" v-text="item.synopsis"></p>
+                                    <span class="excerpt"> {{item.date}} / {{ item.author }}</span>
+                                    <a v-bind:href="item.link" class="secondary-content"> <span class="fa fa-external-link-square fa-2x"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://unpkg.com/vue@2.4.2"></script>
+        <script>
+            let app = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        author: 'Melissa Mungroo',
+                        newItem: {},
+                        items: []
+                    }
+                },
+                methods: {
+                    add() {
+                        this.items.push({
+                                image: this.newItem.image,
+                                title: this.newItem.title,
+                                synopsis: this.newItem.synopsis,
+                                date: this.newItem.date,
+                                author: this.newItem.author,
+                                link: this.newItem.link,
+                            }),
+                            this.newItem = {}
+                    }
+                }
+            })
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</body>
+
+</html>

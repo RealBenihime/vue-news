@@ -1,0 +1,139 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue News Large</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" />
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="row">
+            <div class="col s12 l4">
+                <form @submit.prevent="add">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="text" name="title" v-model="newItem.title" />
+                            <label for="title">Title</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="text" name="caption" v-model="newItem.caption" />
+                            <label for="caption">Caption</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea class="materialize-textarea" name="article" v-model="newItem.article">
+                                </textarea>
+                            <label for="article">Article</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <button class="btn blue white-text">
+                                    Submit
+                                </button>
+                        </div>
+                        <div class="input-field col s6">
+                            <button class="btn red white-text" @click="reset">
+                                reset
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col l8 s12">
+                <div class="row" v-for="item in items">
+                    <div class="col s12">
+                        <section class="news-section">
+                            <meta property="og:url" />
+                            <meta property="og:type" content="article" />
+                            <meta property="og:title" :content="item.title" />
+                            <meta property="og:description" :content="item.description" />
+                            <meta property="og:image" :content="imageFolder + dashedDate + '/' + stripCharacters(item.title) + '.jpg'" />
+                            <figure>
+                                <img :alt="item.description" :src="imageFolder + dashedDate + '/' + stripCharacters(item.title) + '.jpg'" :data-caption="item.description" class="materialboxed responsive-img" />
+                                <figcaption v-html="item.caption"></figcaption>
+                            </figure>
+                            <article class="sm_cols" v-html="item.article">
+
+                            </article>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/vue@2.4.2"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    author: 'Melissa Mungroo',
+                    imageFolder: 'http://coh.ukzn.ac.za/Files/Media/Images/News/',
+                    date: {
+                        'day': new Date().getDate(),
+                        'month': new Date().getMonth() + 1,
+                        'year': new Date().getFullYear()
+                    },
+                    newItem: {
+                        title: '',
+                        description: '',
+                        caption: '',
+                        article: ''
+                    },
+                    items: []
+                }
+            },
+            methods: {
+                add() {
+                    this.items.push({
+                        title: this.newItem.title,
+                        description: this.newItem.description,
+                        caption: this.newItem.caption,
+                        article: this.newItem.article,
+                    });
+                    this.newItem = {};
+                },
+                leadZero(value) {
+                    if (value < 10 && value > 0) {
+                        return "0" + value;
+                    }
+                    return value;
+                },
+                stripCharacters(value) {
+                    value = value.trim();
+                    let newArr = [];
+                    let array = value.replace(/[^a-zA-Z0-9]/g, ' ').split(' ');
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i].trim() != "") {
+                            newArr.push(array[i].trim());
+                        }
+                    }
+                    return array.join('-');
+                },
+                reset() {
+                    this.items = []
+                }
+            },
+            computed: {
+                dashedDate: function() {
+                    return (this.date.year + '-' + this.leadZero(this.date.month) + '-' + this.leadZero(this.date.day));
+                }
+            }
+        })
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</body>
+
+</html>
