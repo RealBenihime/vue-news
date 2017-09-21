@@ -54,10 +54,10 @@
                             <meta property="og:type" content="article" />
                             <meta property="og:title" :content="item.title" />
                             <meta property="og:description" :content="item.description" />
-                            <meta property="og:image" :content="imageFolder + dashedDate + '/' + stripCharacters(item.title) + '.jpg'" />
+                            <meta property="og:image" :content="imageFolder + dashedDate + '/' + slugify(item.title) + '.jpg'" />
                             <article class="sm_cols">
                                 <figure style="width: 365px">
-                                    <img :alt="item.description" :data-caption="item.description" :src="imageFolder + dashedDate + '/' + stripCharacters(item.title) + '.jpg'" class="materialboxed responsive-img" />
+                                    <img :alt="item.description" :data-caption="item.description" :src="imageFolder + dashedDate + '/' + slugify(item.title) + '.jpg'" class="materialboxed responsive-img" />
                                     <figcaption v-html="item.caption"></figcaption>
                                 </figure>
                                 <div v-html="item.article"></div>
@@ -108,16 +108,13 @@
                     }
                     return value;
                 },
-                stripCharacters(value) {
-                    value = value.trim();
-                    let newArr = [];
-                    let array = value.replace(/[^a-zA-Z0-9]/g, ' ').split(' ');
-                    for (var i = 0; i < array.length; i++) {
-                        if (array[i].trim() != "") {
-                            newArr.push(array[i].trim());
-                        }
-                    }
-                    return array.join('-');
+                slugify(text) {
+                    return text.toString().toLowerCase()
+                        .replace(/\s+/g, '-') // Replace spaces with -
+                        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+                        .replace(/\-\-+/g, '-') // Replace multiple - with single -
+                        .replace(/^-+/, '') // Trim - from start of text
+                        .replace(/-+$/, '');
                 },
                 reset() {
                     this.items = []
