@@ -6,6 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Vue Admin Small</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        input.image {
+            height: 200px !important;
+            position: relative;
+        }
+        
+        input.image:before {
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            content: "\f03e";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            color: #dfdfdf;
+            background-color: darkgray;
+            height: 100px;
+            width: 100px;
+            font-size: 3em;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,7 +56,7 @@
                                 <label for="date">Date</label>
                             </div>
                             <div class="input-field">
-                                <input type="text" class="validate" name="image" v-model="newItem.image">
+                                <input type="text" class="validate image" name="image" v-model="newItem.image">
                                 <label for="image">Image</label>
                             </div>
 
